@@ -10,6 +10,12 @@ workspace "Hazel"
 
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
+
+include "Hazel/vendor/GLFW"
+
 project "Hazel"
 	location "Hazel"
 	kind "SharedLib"
@@ -30,7 +36,14 @@ project "Hazel"
 	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src"
+		"%{prj.name}/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	buildoptions "/utf-8"
@@ -54,6 +67,11 @@ project "Hazel"
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		symbols "On"
+
+		defines
+		{
+			--"HZ_ENABLE_ASSERTS"
+		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
