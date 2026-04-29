@@ -47,6 +47,8 @@ namespace Hazel {
 		{
 			return GetCategoryFlags() & category;
 		}
+
+		bool Handled() const { return m_Handled; }
 	protected:
 		// We need to see if an event has been handled or not.
 		// 就像html组件中的事件传播，如果在某一处处理了，就不用再将这个事件继续传播下去
