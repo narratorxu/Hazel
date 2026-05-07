@@ -6,4 +6,4 @@
 	url = https://github.com/narratorxu/glfw
 [submodule "Hazel/vendor/imgui"]
 	path = Hazel/vendor/imgui
-	url = https://github.com/narratorxu/imgui
+	url = https://github.com/narratorxu/imgui.git
