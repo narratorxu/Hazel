@@ -1357,6 +1357,7 @@
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Hazel\Renderer\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Application.cpp">
@@ -1388,5 +1389,6 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\GraphicsContext.h" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\Shader.cpp" />
   </ItemGroup>
 </Project>
