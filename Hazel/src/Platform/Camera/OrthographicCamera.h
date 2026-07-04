@@ -1,12 +1,14 @@
 #pragma once
+
 #include "Hazel/Renderer/Camera.h"
 
-namespace Hazel{
+namespace Hazel {
 
-    class PerspectiveCamera : public Camera
+    class OrthographicCamera : public Camera
     {
     public:
-        PerspectiveCamera(const CameraProps& props);
+		OrthographicCamera(const CameraProps& props);
+
         virtual const glm::vec3& GetPos() const override;
         virtual const glm::mat4& GetViewMatrix() const override;
         virtual const glm::mat4& GetProjectionMatrix() const override;
