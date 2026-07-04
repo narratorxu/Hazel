@@ -109,7 +109,7 @@ namespace Hazel {
 	class VertexBuffer
 	{
 	public:
-		virtual ~VertexBuffer() {}
+		virtual ~VertexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
@@ -123,7 +123,7 @@ namespace Hazel {
 	class IndexBuffer
 	{
 	public:
-		virtual ~IndexBuffer() {}
+		virtual ~IndexBuffer() = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
@@ -131,6 +131,18 @@ namespace Hazel {
 		virtual uint32_t GetCount() const = 0;
 
 		static IndexBuffer* Create(uint32_t* indices, uint32_t count);
+	};
+
+	class UniformBuffer
+	{
+	public:
+		virtual ~UniformBuffer() = default;
+
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
+		virtual void SetData(uint32_t offset, uint32_t size, const void* data) = 0;
+
+		static UniformBuffer* Create(uint32_t size, uint32_t binding);
 	};
 
 }

@@ -36,4 +36,18 @@ namespace Hazel {
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
+
+	UniformBuffer* UniformBuffer::Create(uint32_t size, uint32_t binding)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:
+			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return new OpenGLUniformBuffer(size, binding);
+		}
+		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
+	}
 }
