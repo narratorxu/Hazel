@@ -12,7 +12,8 @@
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/VertexArray.h"
-#include "Hazel/Renderer/Camera.h"
+
+#include "Hazel/Renderer/OrthographicCamera.h"
 
 namespace Hazel 
 {
@@ -40,14 +41,14 @@ namespace Hazel
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-		std::shared_ptr<Camera> m_Camera;
-		std::shared_ptr<UniformBuffer> m_UniformBuffer;
 
 		std::shared_ptr<Shader> m_Shader;
 		std::shared_ptr<VertexArray> m_VertexArray;
 
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
+
+		OrthographicCamera m_Camera;
 	private:
 		static Application* s_Instance;
 	};

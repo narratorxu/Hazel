@@ -5,7 +5,6 @@
 #include "Hazel/Input.h"
 
 #include "Hazel/Renderer/Renderer.h"
-#include "Hazel/Renderer/Camera.h"
 
 namespace Hazel
 {
@@ -15,20 +14,13 @@ namespace Hazel
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
+		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		HZ_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
-
-		m_Camera.reset(Camera::Create({
-			glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3(0.0f, 0.0f, -1.0f),
-			15.0f,
-			1280.0f / 720.0f,
-			0.1f, 100.0f
-		}));
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -83,12 +75,7 @@ namespace Hazel
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
-			layout (std140, binding = 0) uniform Camera
-			{
-				mat4 u_View;
-				mat4 u_Projection;
-			};	
-
+			uniform mat4 u_ViewProjection;	
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -97,7 +84,7 @@ namespace Hazel
 			{
 				v_Position = a_Position + 0.5;
 				v_Color = a_Color;
-				gl_Position = u_Projection * u_View * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -124,18 +111,14 @@ namespace Hazel
 			
 			layout(location = 0) in vec3 a_Position;
 
-			layout (std140, binding = 0) uniform Camera
-			{
-				mat4 u_View;
-				mat4 u_Projection;
-			};	
+			uniform mat4 u_ViewProjection;	
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position + 0.5;
-				gl_Position = u_Projection * u_View * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -155,7 +138,7 @@ namespace Hazel
 
 		m_BlueShader.reset(new Shader(blueVertexSrc, blueFragmentSrc2));
 
-		m_UniformBuffer.reset(UniformBuffer::Create( 2* sizeof(glm::mat4), 0));
+		//m_UniformBuffer.reset(UniformBuffer::Create( 2* sizeof(glm::mat4), 0));
 	}
 
 	Application::~Application()
@@ -195,13 +178,13 @@ namespace Hazel
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene(m_Camera, m_UniformBuffer);
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
 
-			m_BlueShader->Bind();
-			Renderer::Submit(m_SquareVA);
+			Renderer::BeginScene(m_Camera);
 
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
+			Renderer::Submit(m_BlueShader, m_SquareVA);
+			Renderer::Submit(m_Shader, m_VertexArray);
 
 			Renderer::EndScene();
 
