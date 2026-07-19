@@ -18,6 +18,11 @@ namespace Hazel {
 		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
 		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+
+		void MoveW(float delta);
+		void MoveA(float delta);
+		void MoveS(float delta);
+		void MoveD(float delta);
 	private:
 		void RecalculateViewMatrix();
 	private:
