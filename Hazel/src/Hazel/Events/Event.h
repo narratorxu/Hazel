@@ -51,7 +51,7 @@ namespace Hazel {
 		bool Handled() const { return m_Handled; }
 	protected:
 		// We need to see if an event has been handled or not.
-		// ����html����е��¼������������ĳһ�������ˣ��Ͳ����ٽ�����¼�����������ȥ
+		// If an event is handled, it means that it has been processed and should not be processed again.
 		bool m_Handled = false;
 	};
 

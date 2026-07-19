@@ -1,6 +1,7 @@
 #include "hzpch.h"
 #include "Application.h"
 
+#include "KeyCodes.h"
 #include "Hazel/Log.h"
 #include "Hazel/Input.h"
 
@@ -10,6 +11,23 @@ namespace Hazel
 {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
+	bool  onKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetEventType() == Hazel::EventType::KeyPressed)
+		{
+			if (e.GetKeyCode() == HZ_KEY_W)
+				Hazel::Application::Get().GetCamera().MoveW(0.01f);
+			if (e.GetKeyCode() == HZ_KEY_A)
+				Hazel::Application::Get().GetCamera().MoveA(0.01f);
+			if (e.GetKeyCode() == HZ_KEY_S)
+				Hazel::Application::Get().GetCamera().MoveS(0.01f);
+			if (e.GetKeyCode() == HZ_KEY_D)
+				Hazel::Application::Get().GetCamera().MoveD(0.01f);
+			HZ_TRACE("{0}", (char)e.GetKeyCode());
+		}
+		return false;
+	}
 
 	Application* Application::s_Instance = nullptr;
 
@@ -160,6 +178,7 @@ namespace Hazel
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<KeyPressedEvent>(onKeyPressed);
 
 		// HZ_CORE_INFO("{0}", e.ToString());
 
@@ -173,13 +192,13 @@ namespace Hazel
 
 	void Application::Run()
 	{
+		m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+		m_Camera.SetRotation(45.0f);
+
 		while (m_Running)
 		{
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
-
-			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			m_Camera.SetRotation(45.0f);
 
 			Renderer::BeginScene(m_Camera);
 

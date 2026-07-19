@@ -20,4 +20,25 @@ namespace Hazel {
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
+	void OrthographicCamera::MoveW(float delta)
+	{ 
+		glm::vec4 movement = glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1)) * glm::vec4(0.0f, delta, 0.0f, 1.0f);
+		m_Position += movement;
+		RecalculateViewMatrix();
+	}
+	void OrthographicCamera::MoveS(float delta)
+	{
+		m_Position += glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1)) * glm::vec4(0.0f, -delta, 0.0f, 1.0f);
+		RecalculateViewMatrix();
+	}
+	void OrthographicCamera::MoveA(float delta)
+	{
+		m_Position += glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1)) * glm::vec4(-delta, 0.0f, 0.0f, 1.0f);
+		RecalculateViewMatrix();
+	}
+	void OrthographicCamera::MoveD(float delta)
+	{
+		m_Position += glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1)) * glm::vec4(delta, 0.0f, 0.0f, 1.0f);
+		RecalculateViewMatrix();
+	}
 }

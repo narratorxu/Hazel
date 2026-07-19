@@ -32,6 +32,7 @@ namespace Hazel
 		 void PushOverlay(Layer* layer);
 
 		 inline Window& GetWindow() { return *m_Window; }
+		 inline OrthographicCamera& GetCamera() { return m_Camera; }
 
 		 inline static Application& Get() { return *s_Instance; }
 	private:
