@@ -55,6 +55,7 @@ namespace Hazel {
 		bool m_Handled = false;
 	};
 
+	// Be capable of dispatching events based on their type.
 	class EventDispatcher
 	{
 		template<typename T>
