@@ -73,7 +73,7 @@ namespace Hazel {
 	class BufferLayout
 	{
 	public:
-		BufferLayout() {} // 不加会报缺少默认初始化函数。
+		BufferLayout() = default; // 不加会报缺少默认初始化函数。
 
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: m_Elements(elements) 
