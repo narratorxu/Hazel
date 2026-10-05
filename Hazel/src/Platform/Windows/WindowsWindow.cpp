@@ -155,7 +155,10 @@ namespace Hazel {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		m_Context->SwapBuffers();
+
+		// SwapBuffers can block on a minimized (iconified) window, starving the event pump
+		if (!glfwGetWindowAttrib(m_Window, GLFW_ICONIFIED))
+			m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

@@ -75,9 +75,18 @@ namespace Hazel {
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
+		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		bool minimized = glfwGetWindowAttrib(window, GLFW_ICONIFIED);
+		if (minimized)
+			// The GLFW backend derives a zero DisplayFramebufferScale from the minimized main
+			// window, which would make ImGui_ImplOpenGL3_RenderDrawData skip ALL viewports,
+			// leaving detached platform windows black. Keep a valid scale for them.
+			io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+
 		// Rendering
         ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		if (!minimized) // Skip rendering into the minimized main window, but keep platform windows alive below
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {

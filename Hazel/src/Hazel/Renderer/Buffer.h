@@ -41,7 +41,7 @@ namespace Hazel {
 			: Index(index), Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0)
 		{
 		}*/
-		//BufferElement() {} // ºÃÏñ²»¼ÓÒ²²»»á±¨´í
+		//BufferElement() {} // å¥½åƒä¸åŠ ä¹Ÿä¸ä¼šæŠ¥é”™
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
 			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
@@ -73,7 +73,7 @@ namespace Hazel {
 	class BufferLayout
 	{
 	public:
-		BufferLayout() = default; // ²»¼Ó»á±¨È±ÉÙÄ¬ÈÏ³õÊ¼»¯º¯Êı¡£
+		BufferLayout() = default; // ä¸åŠ ä¼šæŠ¥ç¼ºå°‘é»˜è®¤åˆå§‹åŒ–å‡½æ•°ã€‚
 
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
 			: m_Elements(elements) 
